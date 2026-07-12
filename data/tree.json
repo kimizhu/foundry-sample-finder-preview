@@ -30,8 +30,8 @@
           "next": "lg-interaction"
         },
         {
-          "label": "I'm bringing a model SDK or another framework",
-          "description": "Start native — call a Foundry model directly with just a model SDK, no agent framework — or bring the OpenAI Agents SDK, Anthropic Claude Agent SDK, GitHub Copilot SDK, or fully custom code, all hosted with the Foundry server SDKs.",
+          "label": "I'm bringing a model SDK or another agent framework",
+          "description": "Call a Foundry model directly with just a model SDK — the Azure AI Projects SDK, no agent framework — or bring a third-party agent framework: the OpenAI Agents SDK, Anthropic Claude Agent SDK, Pydantic AI, or GitHub Copilot SDK. Everything here is hosted with the Foundry server SDKs over the Responses or Invocations protocol.",
           "next": "byo-start"
         }
       ]
@@ -598,23 +598,37 @@
       "id": "byo-resp-capability",
       "type": "question",
       "breadcrumb": "Chat (Responses)",
-      "title": "What's the closest starting point?",
-      "help": "Level 3 — pick the framework you already use, or the scenario nearest to yours.",
+      "title": "What are you building with?",
+      "help": "Level 3 — native model-SDK code, a third-party framework, or a specific scenario.",
       "options": [
         {
           "label": "Start native — just a model SDK, no framework",
-          "description": "Write plain code that calls a Foundry model directly through a model SDK — no agent framework required. The simplest possible starting point.",
+          "description": "Write plain code that calls a Foundry model directly through the Azure AI Projects SDK — no agent framework required. The simplest possible starting point.",
           "next": "byo-resp-hello-result",
           "recommended": true
         },
         {
-          "label": "Use the OpenAI Agents SDK",
+          "label": "Use a third-party agent framework — the OpenAI Agents SDK",
           "description": "Host an agent built with the OpenAI Agents SDK over Responses.",
           "next": "byo-resp-openai-result"
         },
         {
+          "label": "Build a specific scenario or capability",
+          "description": "Tools, notetaking, background work, sessions, browser automation, or production concerns — all native under the hood.",
+          "next": "byo-resp-scenarios"
+        }
+      ]
+    },
+    "byo-resp-scenarios": {
+      "id": "byo-resp-scenarios",
+      "type": "question",
+      "breadcrumb": "Chat (Responses)",
+      "title": "Which scenario or capability?",
+      "help": "Level 4 — pick the use case nearest to yours.",
+      "options": [
+        {
           "label": "Connect to tools via a Foundry Toolbox",
-          "description": "Plain toolbox, or LangGraph + toolbox (incl. on-behalf-of user identity).",
+          "description": "A Foundry Toolbox MCP endpoint for tool access.",
           "next": "byo-resp-tools-result"
         },
         {
@@ -648,7 +662,7 @@
       "id": "byo-resp-hello-result",
       "type": "result",
       "breadcrumb": "Hello world",
-      "intro": "The simplest possible BYO Responses agent — plain code that calls a Foundry model directly through a model SDK, with no agent framework.",
+      "intro": "The simplest possible BYO Responses agent — plain code that calls a Foundry model directly through the Azure AI Projects SDK, with no agent framework.",
       "sampleIds": [
         "byo-resp-hello-world"
       ]
@@ -750,20 +764,58 @@
       "id": "byo-inv-capability",
       "type": "question",
       "breadcrumb": "Invocations",
-      "title": "What's your Invocations scenario?",
-      "help": "Level 3 — arbitrary JSON in / SSE out; you own the payload and sessions.",
+      "title": "What are you building with?",
+      "help": "Level 3 — native model-SDK code, a third-party framework, or a specific scenario.",
       "options": [
         {
           "label": "Start native — just a model SDK, no framework",
-          "description": "Write plain code that calls a Foundry model directly through a model SDK — no agent framework required. JSON in, streaming SSE out.",
+          "description": "Write plain code that calls a Foundry model directly through the Azure AI Projects SDK — no agent framework required. JSON in, streaming SSE out.",
           "next": "byo-inv-hello-result",
           "recommended": true
         },
+        {
+          "label": "Use a third-party agent framework or SDK",
+          "description": "Bring the Claude Agent SDK, Pydantic AI (AG-UI), or the GitHub Copilot SDK, hosted over Invocations.",
+          "next": "byo-inv-frameworks"
+        },
+        {
+          "label": "Build a specific scenario or capability",
+          "description": "Tools, notetaking, human-in-the-loop, event triggers, or network diagnostics.",
+          "next": "byo-inv-scenarios"
+        }
+      ]
+    },
+    "byo-inv-frameworks": {
+      "id": "byo-inv-frameworks",
+      "type": "question",
+      "breadcrumb": "Invocations",
+      "title": "Which framework or SDK?",
+      "help": "Level 4 — pick the framework you already build with.",
+      "options": [
         {
           "label": "Use the Claude Agent SDK",
           "description": "Host an agent built with the Claude Agent SDK over Invocations.",
           "next": "byo-inv-claude-result"
         },
+        {
+          "label": "Use Pydantic AI (AG-UI streaming protocol)",
+          "description": "A Pydantic AI agent exposed through the AG-UI streaming protocol over Invocations.",
+          "next": "byo-inv-agui-result"
+        },
+        {
+          "label": "Use the GitHub Copilot SDK",
+          "description": "Build on the GitHub Copilot SDK, using GitHub Copilot as the AI backbone.",
+          "next": "byo-inv-copilot-result"
+        }
+      ]
+    },
+    "byo-inv-scenarios": {
+      "id": "byo-inv-scenarios",
+      "type": "question",
+      "breadcrumb": "Invocations",
+      "title": "Which scenario or capability?",
+      "help": "Level 4 — pick the use case nearest to yours.",
+      "options": [
         {
           "label": "Connect to tools via a Foundry Toolbox",
           "description": "Toolbox MCP endpoint over Invocations.",
@@ -773,16 +825,6 @@
           "label": "Take notes / maintain state",
           "description": "A note-taking agent over Invocations.",
           "next": "byo-inv-notetaking-result"
-        },
-        {
-          "label": "A custom UI streaming protocol (AG-UI)",
-          "description": "AG-UI streaming via the Invocations endpoint.",
-          "next": "byo-inv-agui-result"
-        },
-        {
-          "label": "Bridge to GitHub Copilot",
-          "description": "Use GitHub Copilot as the AI backbone.",
-          "next": "byo-inv-copilot-result"
         },
         {
           "label": "Pause for human approval (human-in-the-loop)",
@@ -805,7 +847,7 @@
       "id": "byo-inv-hello-result",
       "type": "result",
       "breadcrumb": "Hello world",
-      "intro": "The simplest BYO Invocations agent — plain code that calls a Foundry model directly through a model SDK (no framework); arbitrary JSON in, streaming SSE out.",
+      "intro": "The simplest BYO Invocations agent — plain code that calls a Foundry model directly through the Azure AI Projects SDK (no framework); arbitrary JSON in, streaming SSE out.",
       "sampleIds": [
         "byo-inv-hello-world"
       ]
@@ -841,7 +883,7 @@
       "id": "byo-inv-agui-result",
       "type": "result",
       "breadcrumb": "AG-UI",
-      "intro": "An agent using the AG-UI streaming protocol via the Invocations endpoint.",
+      "intro": "A Pydantic AI agent exposed through the AG-UI streaming protocol via the Invocations endpoint.",
       "sampleIds": [
         "byo-inv-ag-ui"
       ]
@@ -850,7 +892,7 @@
       "id": "byo-inv-copilot-result",
       "type": "result",
       "breadcrumb": "GitHub Copilot",
-      "intro": "An agent that integrates with GitHub Copilot as the AI backbone.",
+      "intro": "An agent built on the GitHub Copilot SDK, using GitHub Copilot as the AI backbone.",
       "sampleIds": [
         "byo-inv-github-copilot"
       ]

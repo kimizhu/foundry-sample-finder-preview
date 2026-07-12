@@ -792,7 +792,7 @@ window.HA_SAMPLES = {
         "custom-protocol"
       ],
       "path": "bring-your-own/invocations/ag-ui",
-      "description": "An agent using the AG-UI streaming protocol via the Invocations endpoint."
+      "description": "A Pydantic AI agent exposed over the AG-UI streaming protocol via the Invocations endpoint."
     },
     {
       "id": "byo-inv-github-copilot",
@@ -808,7 +808,7 @@ window.HA_SAMPLES = {
         "backbone"
       ],
       "path": "bring-your-own/invocations/github-copilot",
-      "description": "An agent that integrates with GitHub Copilot as the AI backbone."
+      "description": "An agent built on the GitHub Copilot SDK, using GitHub Copilot as the AI backbone."
     },
     {
       "id": "byo-inv-hitl",
