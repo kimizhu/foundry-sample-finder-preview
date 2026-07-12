@@ -21,16 +21,16 @@
         },
         {
           "label": "I want the deepest, most native Foundry integration",
-          "description": "Microsoft Agent Framework — Microsoft's own agent SDK, with sessions, tools, memory, and streaming built into Foundry. The best starting point for a brand-new agent.",
+          "description": "Use Microsoft Agent Framework — Microsoft's own agent SDK, with sessions, tools, memory, and streaming built into Foundry. The best starting point for a brand-new agent.",
           "next": "af-interaction"
         },
         {
           "label": "I'm using LangGraph / LangChain",
-          "description": "Microsoft officially supports the hosting integration through the langchain-azure-ai SDK — native sessions and streaming that bring your existing LangGraph graphs to Foundry.",
+          "description": "Use the langchain-azure-ai SDK — Microsoft officially supports the hosting integration, with native sessions and streaming that bring your existing LangGraph graphs to Foundry.",
           "next": "lg-interaction"
         },
         {
-          "label": "I'm bringing a model SDK or another framework",
+          "label": "I want to bring my own model SDK or another framework",
           "description": "Call a Foundry model directly with just a model SDK, or bring a third-party framework: the OpenAI Agents SDK, Anthropic Claude Agent SDK, GitHub Copilot SDK, etc.",
           "next": "byo-start"
         }
