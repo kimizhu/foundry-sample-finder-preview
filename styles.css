@@ -199,6 +199,11 @@ main.wrap { padding-top: 26px; padding-bottom: 40px; min-height: 50vh; }
   padding: 5px 10px;
 }
 .block-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 82px;
+  box-sizing: border-box;
   background: var(--surface-2);
   color: var(--text-muted);
   border: 1px solid var(--border-strong);
