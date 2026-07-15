@@ -53,6 +53,7 @@ const state = {
   tree: null,
   view: "guide",
   open: new Set(["base"]), // expanded block ids
+  variantSel: new Map(), // family id -> selected variant sampleId
 };
 
 async function loadData() {
@@ -98,10 +99,15 @@ function countLabel(n) {
 }
 function sdkCounts(node) {
   const m = new Map();
-  for (const id of node.sampleIds || []) {
+  const add = (id) => {
     const s = state.byId.get(id);
-    if (!s || !s.sdk) continue;
+    if (!s || !s.sdk) return;
     m.set(s.sdk, (m.get(s.sdk) || 0) + 1);
+  };
+  if (node.families) {
+    for (const fam of node.families) for (const v of fam.variants || []) add(typeof v === "string" ? v : v.id);
+  } else {
+    for (const id of node.sampleIds || []) add(id);
   }
   return m;
 }
@@ -153,35 +159,89 @@ function dotRow(node) {
   return row;
 }
 
+/* a consolidated capability: one card, one button per real framework·protocol variant */
+function variantButtonLabel(sample, note) {
+  const fw = sdkMeta(sample.sdk).label;
+  const proto = SHORT_PROTOCOL[sample.protocol] || sample.protocol;
+  return note ? `${fw} · ${proto} · ${note}` : `${fw} · ${proto}`;
+}
+
+function familyVariants(family) {
+  return (family.variants || [])
+    .map((v) => {
+      const id = typeof v === "string" ? v : v.id;
+      const note = typeof v === "string" ? null : v.note;
+      return { id, note, sample: state.byId.get(id) };
+    })
+    .filter((v) => v.sample);
+}
+
+function familyCard(family) {
+  const variants = familyVariants(family);
+  if (!variants.length) return null;
+  const selId = state.variantSel.get(family.id) || variants[0].id;
+
+  const detail = el("div", { class: "variant-detail" });
+  const renderDetail = (sample) => {
+    detail.innerHTML = "";
+    detail.appendChild(sampleCard(sample));
+  };
+
+  const btnRow = el("div", { class: "variant-toggle", role: "tablist" });
+  variants.forEach((v) => {
+    const active = v.id === selId;
+    const btn = el(
+      "button",
+      {
+        class: "variant-btn" + (active ? " active" : ""),
+        type: "button",
+        role: "tab",
+        "aria-selected": String(active),
+        onclick: () => {
+          state.variantSel.set(family.id, v.id);
+          btnRow.querySelectorAll(".variant-btn").forEach((b) => {
+            b.classList.remove("active");
+            b.setAttribute("aria-selected", "false");
+          });
+          btn.classList.add("active");
+          btn.setAttribute("aria-selected", "true");
+          renderDetail(v.sample);
+        },
+      },
+      [sdkDot(v.sample.sdk, true), variantButtonLabel(v.sample, v.note)]
+    );
+    btnRow.appendChild(btn);
+  });
+
+  const sel = variants.find((v) => v.id === selId) || variants[0];
+  renderDetail(sel.sample);
+
+  return el("article", { class: "family-card" }, [
+    el("div", { class: "family-head" }, [
+      el("h4", { class: "family-title", text: family.title }),
+      family.description ? el("p", { class: "family-desc", text: family.description }) : null,
+      el("span", { class: "variant-meta", text: variants.length === 1 ? "1 variant" : `${variants.length} variants` }),
+    ]),
+    btnRow,
+    detail,
+  ]);
+}
+
 function blockPanel(node) {
   const panel = el("div", { class: "block-panel" });
   if (node.description) panel.appendChild(el("p", { class: "block-longdesc", text: node.description }));
-  let any = false;
-  for (const key of sdkOrder()) {
-    const ids = (node.sampleIds || []).filter((id) => {
-      const s = state.byId.get(id);
-      return s && s.sdk === key;
-    });
-    if (!ids.length) continue;
-    any = true;
-    panel.appendChild(
-      el("div", { class: "sdk-group" }, [
-        el("div", { class: "sdk-group-head" }, [
-          sdkDot(key, true),
-          el("b", { text: sdkMeta(key).label }),
-          el("span", { class: "sdk-group-count", text: countLabel(ids.length) }),
-        ]),
-        el("div", { class: "card-grid" }, ids.map((id) => sampleCard(state.byId.get(id)))),
-      ])
-    );
+  const fams = node.families || [];
+  if (!fams.length) {
+    panel.appendChild(el("div", { class: "empty", text: "No samples mapped to this block." }));
+    return panel;
   }
-  if (!any) panel.appendChild(el("div", { class: "empty", text: "No samples mapped to this block." }));
+  panel.appendChild(el("div", { class: "family-grid" }, fams.map((f) => familyCard(f))));
   return panel;
 }
 
 function blockCard(node, opts = {}) {
   const isOpen = state.open.has(node.id);
-  const n = (node.sampleIds || []).length;
+  const n = (node.families || node.sampleIds || []).length;
   const row = el(
     "button",
     { class: "block-row", "aria-expanded": String(isOpen), onclick: () => toggleBlock(node.id) },
@@ -226,7 +286,7 @@ function renderGuide() {
         el("h2", { text: "Start with the Foundry base, then stack building blocks" }),
         el("p", {
           class: "blocks-sub",
-          text: "Each block’s dots show which SDKs already have a sample for it. Open a block to see the samples, grouped by SDK.",
+          text: "Each block’s dots show which frameworks already have a sample for it. Open a block, then switch framework or protocol with the buttons on each card.",
         }),
       ]),
       sdkLegend(),

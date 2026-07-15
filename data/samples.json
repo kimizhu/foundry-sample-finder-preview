@@ -13,11 +13,7 @@
     "sdks": {
       "agent-framework": { "label": "Agent Framework", "short": "AF", "color": "#2563eb" },
       "langgraph": { "label": "LangGraph", "short": "LG", "color": "#16a34a" },
-      "native": { "label": "Native / Azure AI Projects", "short": "Native", "color": "#64748b" },
-      "openai-agents": { "label": "OpenAI Agents SDK", "short": "OpenAI", "color": "#0d9488" },
-      "claude": { "label": "Claude Agent SDK", "short": "Claude", "color": "#ea580c" },
-      "pydantic-ai": { "label": "Pydantic AI", "short": "Pydantic", "color": "#db2777" },
-      "github-copilot": { "label": "GitHub Copilot SDK", "short": "Copilot", "color": "#7c3aed" }
+      "native": { "label": "Native / Azure AI Projects", "short": "Native", "color": "#64748b" }
     },
     "protocols": {
       "responses": "OpenAI-compatible Responses protocol — platform manages history, streaming, background",
@@ -526,7 +522,7 @@
       "id": "byo-resp-openai-agents-sdk",
       "title": "OpenAI Agents SDK",
       "framework": "bring-your-own",
-      "sdk": "openai-agents",
+      "sdk": "native",
       "protocol": "responses",
       "category": "adapters",
       "level": "intermediate",
@@ -643,7 +639,7 @@
       "id": "byo-inv-ag-ui",
       "title": "AG-UI",
       "framework": "bring-your-own",
-      "sdk": "pydantic-ai",
+      "sdk": "native",
       "protocol": "invocations",
       "category": "channels",
       "level": "advanced",
@@ -656,7 +652,7 @@
       "id": "byo-inv-github-copilot",
       "title": "GitHub Copilot",
       "framework": "bring-your-own",
-      "sdk": "github-copilot",
+      "sdk": "native",
       "protocol": "invocations",
       "category": "channels",
       "level": "advanced",
@@ -695,7 +691,7 @@
       "id": "byo-inv-claude-agent-sdk",
       "title": "Claude Agent SDK",
       "framework": "bring-your-own",
-      "sdk": "claude",
+      "sdk": "native",
       "protocol": "invocations",
       "category": "adapters",
       "level": "intermediate",

@@ -208,11 +208,44 @@ main.wrap { padding-top: 26px; padding-bottom: 40px; min-height: 50vh; }
   background: #fbfcfe;
 }
 .block-longdesc { margin: 12px 0 16px; color: var(--text-muted); font-size: 14px; max-width: 72ch; }
-.sdk-group { margin-bottom: 18px; }
-.sdk-group:last-child { margin-bottom: 2px; }
-.sdk-group-head { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 14px; }
-.sdk-group-head b { font-weight: 600; }
-.sdk-group-count { color: var(--text-faint); font-size: 12.5px; font-weight: 500; }
+
+/* consolidated capability cards + framework/protocol variant toggle */
+.family-grid { display: flex; flex-direction: column; gap: 14px; }
+.family-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  padding: 14px 16px;
+}
+.family-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; margin-bottom: 12px; }
+.family-title { margin: 0; font-size: 15px; font-weight: 600; }
+.family-desc { margin: 0; flex: 1 1 100%; color: var(--text-muted); font-size: 13px; }
+.variant-meta { color: var(--text-faint); font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+
+.variant-toggle { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.variant-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+.variant-btn:hover { background: #eef2f8; color: var(--text); }
+.variant-btn.active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent-dark);
+  font-weight: 600;
+}
+.variant-detail { border-top: 1px dashed var(--border); padding-top: 14px; }
+.variant-detail .sample-card { box-shadow: none; }
 
 /* sdk badge on a sample card */
 .badge.sdk {

@@ -26,26 +26,6 @@ window.HA_SAMPLES = {
         "label": "Native / Azure AI Projects",
         "short": "Native",
         "color": "#64748b"
-      },
-      "openai-agents": {
-        "label": "OpenAI Agents SDK",
-        "short": "OpenAI",
-        "color": "#0d9488"
-      },
-      "claude": {
-        "label": "Claude Agent SDK",
-        "short": "Claude",
-        "color": "#ea580c"
-      },
-      "pydantic-ai": {
-        "label": "Pydantic AI",
-        "short": "Pydantic",
-        "color": "#db2777"
-      },
-      "github-copilot": {
-        "label": "GitHub Copilot SDK",
-        "short": "Copilot",
-        "color": "#7c3aed"
       }
     },
     "protocols": {
@@ -714,7 +694,7 @@ window.HA_SAMPLES = {
       "id": "byo-resp-openai-agents-sdk",
       "title": "OpenAI Agents SDK",
       "framework": "bring-your-own",
-      "sdk": "openai-agents",
+      "sdk": "native",
       "protocol": "responses",
       "category": "adapters",
       "level": "intermediate",
@@ -865,7 +845,7 @@ window.HA_SAMPLES = {
       "id": "byo-inv-ag-ui",
       "title": "AG-UI",
       "framework": "bring-your-own",
-      "sdk": "pydantic-ai",
+      "sdk": "native",
       "protocol": "invocations",
       "category": "channels",
       "level": "advanced",
@@ -882,7 +862,7 @@ window.HA_SAMPLES = {
       "id": "byo-inv-github-copilot",
       "title": "GitHub Copilot",
       "framework": "bring-your-own",
-      "sdk": "github-copilot",
+      "sdk": "native",
       "protocol": "invocations",
       "category": "channels",
       "level": "advanced",
@@ -934,7 +914,7 @@ window.HA_SAMPLES = {
       "id": "byo-inv-claude-agent-sdk",
       "title": "Claude Agent SDK",
       "framework": "bring-your-own",
-      "sdk": "claude",
+      "sdk": "native",
       "protocol": "invocations",
       "category": "adapters",
       "level": "intermediate",
