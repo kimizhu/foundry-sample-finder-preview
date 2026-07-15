@@ -118,14 +118,14 @@ main.wrap { padding-top: 26px; padding-bottom: 40px; min-height: 50vh; }
 
 /* dot */
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  border: 1.5px solid transparent;
+  border: 2px solid transparent;
   flex-shrink: 0;
   display: inline-block;
 }
-.dot.hollow { opacity: 0.45; }
+.dot.hollow { opacity: 1; }
 
 /* stack */
 .stack { display: flex; flex-direction: column; gap: 10px; }
@@ -189,7 +189,15 @@ main.wrap { padding-top: 26px; padding-bottom: 40px; min-height: 50vh; }
 .block-desc { display: block; color: var(--text-muted); font-size: 13px; margin-top: 3px; }
 
 .block-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
-.dot-row { display: flex; align-items: center; gap: 5px; }
+.dot-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  padding: 5px 10px;
+}
 .block-count {
   background: var(--surface-2);
   color: var(--text-muted);
@@ -210,19 +218,16 @@ main.wrap { padding-top: 26px; padding-bottom: 40px; min-height: 50vh; }
 .block-longdesc { margin: 12px 0 16px; color: var(--text-muted); font-size: 14px; max-width: 72ch; }
 
 /* consolidated capability cards + framework/protocol variant toggle */
-.family-grid { display: flex; flex-direction: column; gap: 14px; }
-.family-card {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  padding: 14px 16px;
+.family-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  align-items: stretch;
 }
-.family-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; margin-bottom: 12px; }
-.family-title { margin: 0; font-size: 15px; font-weight: 600; }
-.family-desc { margin: 0; flex: 1 1 100%; color: var(--text-muted); font-size: 13px; }
-.variant-meta { color: var(--text-faint); font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+.capability-card { padding: 15px 16px; }
+.capability-card .cap-title { margin: 0; font-size: 15px; font-weight: 600; }
 
-.variant-toggle { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.variant-toggle { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
 .variant-btn {
   display: inline-flex;
   align-items: center;
@@ -244,8 +249,6 @@ main.wrap { padding-top: 26px; padding-bottom: 40px; min-height: 50vh; }
   color: var(--accent-dark);
   font-weight: 600;
 }
-.variant-detail { border-top: 1px dashed var(--border); padding-top: 14px; }
-.variant-detail .sample-card { box-shadow: none; }
 
 /* sdk badge on a sample card */
 .badge.sdk {
@@ -344,6 +347,7 @@ main.wrap { padding-top: 26px; padding-bottom: 40px; min-height: 50vh; }
 
 @media (max-width: 640px) {
   .card-grid { grid-template-columns: 1fr; }
+  .family-grid { grid-template-columns: 1fr; }
   .filter-selects select { min-width: 120px; }
   .block-panel { padding-left: 24px; }
   .block-row { flex-wrap: wrap; }

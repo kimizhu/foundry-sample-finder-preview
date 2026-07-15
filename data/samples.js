@@ -20,12 +20,12 @@ window.HA_SAMPLES = {
       "langgraph": {
         "label": "LangGraph",
         "short": "LG",
-        "color": "#16a34a"
+        "color": "#059669"
       },
       "native": {
         "label": "Native / Azure AI Projects",
         "short": "Native",
-        "color": "#64748b"
+        "color": "#d97706"
       }
     },
     "protocols": {

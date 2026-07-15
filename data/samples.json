@@ -12,8 +12,8 @@
     },
     "sdks": {
       "agent-framework": { "label": "Agent Framework", "short": "AF", "color": "#2563eb" },
-      "langgraph": { "label": "LangGraph", "short": "LG", "color": "#16a34a" },
-      "native": { "label": "Native / Azure AI Projects", "short": "Native", "color": "#64748b" }
+      "langgraph": { "label": "LangGraph", "short": "LG", "color": "#059669" },
+      "native": { "label": "Native / Azure AI Projects", "short": "Native", "color": "#d97706" }
     },
     "protocols": {
       "responses": "OpenAI-compatible Responses protocol — platform manages history, streaming, background",

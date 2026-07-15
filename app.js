@@ -86,7 +86,7 @@ function sdkOrder() {
 }
 function sdkDot(key, solid, title) {
   const c = sdkMeta(key).color;
-  const style = solid ? `background:${c};border-color:${c}` : `background:transparent;border-color:${c}`;
+  const style = solid ? `background:${c};border-color:${c}` : `background:transparent;border-color:#cbd5e1`;
   return el("span", {
     class: "dot" + (solid ? "" : " hollow"),
     style,
@@ -159,9 +159,12 @@ function dotRow(node) {
   return row;
 }
 
-/* a consolidated capability: one card, one button per real framework·protocol variant */
+/* a consolidated capability: one card, one chip per real framework·protocol variant */
+function fwChipName(sdk) {
+  return sdk === "native" ? "Native" : sdkMeta(sdk).label;
+}
 function variantButtonLabel(sample, note) {
-  const fw = sdkMeta(sample.sdk).label;
+  const fw = fwChipName(sample.sdk);
   const proto = SHORT_PROTOCOL[sample.protocol] || sample.protocol;
   return note ? `${fw} · ${proto} · ${note}` : `${fw} · ${proto}`;
 }
@@ -181,10 +184,16 @@ function familyCard(family) {
   if (!variants.length) return null;
   const selId = state.variantSel.get(family.id) || variants[0].id;
 
-  const detail = el("div", { class: "variant-detail" });
-  const renderDetail = (sample) => {
-    detail.innerHTML = "";
-    detail.appendChild(sampleCard(sample));
+  // single-layer tile: capability title + in-card chips + the selected variant's fields
+  const desc = el("p", { class: "desc" });
+  const path = el("span", { class: "path" });
+  const link = el("a", { class: "open-link", target: "_blank", rel: "noopener", text: "Open on GitHub ↗" });
+  const foot = el("div", { class: "card-foot" }, [path, link]);
+  const fill = (sample) => {
+    desc.textContent = sample.description || "";
+    path.textContent = sample.path;
+    path.title = sample.path;
+    link.href = repoUrl(sample);
   };
 
   const btnRow = el("div", { class: "variant-toggle", role: "tablist" });
@@ -197,6 +206,7 @@ function familyCard(family) {
         type: "button",
         role: "tab",
         "aria-selected": String(active),
+        title: variantButtonLabel(v.sample, v.note),
         onclick: () => {
           state.variantSel.set(family.id, v.id);
           btnRow.querySelectorAll(".variant-btn").forEach((b) => {
@@ -205,7 +215,7 @@ function familyCard(family) {
           });
           btn.classList.add("active");
           btn.setAttribute("aria-selected", "true");
-          renderDetail(v.sample);
+          fill(v.sample);
         },
       },
       [sdkDot(v.sample.sdk, true), variantButtonLabel(v.sample, v.note)]
@@ -214,16 +224,13 @@ function familyCard(family) {
   });
 
   const sel = variants.find((v) => v.id === selId) || variants[0];
-  renderDetail(sel.sample);
+  fill(sel.sample);
 
-  return el("article", { class: "family-card" }, [
-    el("div", { class: "family-head" }, [
-      el("h4", { class: "family-title", text: family.title }),
-      family.description ? el("p", { class: "family-desc", text: family.description }) : null,
-      el("span", { class: "variant-meta", text: variants.length === 1 ? "1 variant" : `${variants.length} variants` }),
-    ]),
+  return el("article", { class: "sample-card capability-card" }, [
+    el("h3", { class: "cap-title", text: family.title }),
     btnRow,
-    detail,
+    desc,
+    foot,
   ]);
 }
 
