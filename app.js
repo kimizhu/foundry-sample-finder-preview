@@ -52,7 +52,7 @@ const state = {
   byId: new Map(),
   tree: null,
   view: "guide",
-  open: new Set(["base"]), // expanded block ids
+  open: new Set(), // expanded block ids
   variantSel: new Map(), // family id -> selected variant sampleId
 };
 
