@@ -9,6 +9,40 @@
       "native"
     ]
   },
+  "groups": [
+    {
+      "id": "building-blocks",
+      "title": "Building blocks",
+      "tagline": "Stack capabilities on the base agent",
+      "blocks": [
+        "tools",
+        "knowledge",
+        "files",
+        "human-async",
+        "orchestration",
+        "browser"
+      ]
+    },
+    {
+      "id": "production",
+      "title": "Production & Trust",
+      "tagline": "Run safely and observably in production",
+      "blocks": [
+        "observability",
+        "security",
+        "optimization"
+      ]
+    },
+    {
+      "id": "ecosystem",
+      "title": "Channels & Ecosystem",
+      "tagline": "Ship to channels or bring your own SDK",
+      "blocks": [
+        "teams",
+        "adapters"
+      ]
+    }
+  ],
   "base": {
     "id": "base",
     "title": "Foundry base · Basic agent",

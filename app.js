@@ -311,8 +311,27 @@ function renderGuide() {
 
   const stack = el("div", { class: "stack" });
   stack.appendChild(blockCard(state.tree.base, { base: true }));
-  stack.appendChild(el("div", { class: "stack-caption", text: "Stack building blocks on top ↓" }));
-  (state.tree.blocks || []).forEach((b) => stack.appendChild(blockCard(b)));
+
+  const blocks = state.tree.blocks || [];
+  const groups = state.tree.groups;
+  if (Array.isArray(groups) && groups.length) {
+    const byId = new Map(blocks.map((b) => [b.id, b]));
+    groups.forEach((group) => {
+      stack.appendChild(
+        el("div", { class: "stack-group-head" }, [
+          el("span", { class: "stack-group-title", text: group.title }),
+          group.tagline ? el("span", { class: "stack-group-tagline", text: group.tagline }) : null,
+        ])
+      );
+      (group.blocks || []).forEach((id) => {
+        const node = byId.get(id);
+        if (node) stack.appendChild(blockCard(node));
+      });
+    });
+  } else {
+    stack.appendChild(el("div", { class: "stack-caption", text: "Stack building blocks on top ↓" }));
+    blocks.forEach((b) => stack.appendChild(blockCard(b)));
+  }
   host.appendChild(stack);
 }
 
