@@ -21,7 +21,8 @@ window.HA_TREE = {
         "files",
         "human-async",
         "orchestration",
-        "browser"
+        "browser",
+        "adapters"
       ]
     },
     {
@@ -37,10 +38,9 @@ window.HA_TREE = {
     {
       "id": "ecosystem",
       "title": "Channels & Ecosystem",
-      "tagline": "Ship to channels or bring your own SDK",
+      "tagline": "Ship the agent to a Microsoft channel",
       "blocks": [
-        "teams",
-        "adapters"
+        "teams"
       ]
     }
   ],
@@ -68,9 +68,9 @@ window.HA_TREE = {
   "blocks": [
     {
       "id": "tools",
-      "title": "Tools & MCP",
-      "tagline": "local tools · MCP · toolbox",
-      "description": "Give the agent capabilities: custom local function tools, remote MCP servers, and the managed Foundry toolbox.",
+      "title": "Tools, MCP & Skills",
+      "tagline": "local tools · MCP · skills · toolbox",
+      "description": "Give the agent capabilities: custom local function tools, remote MCP servers, reusable skills, and the managed Foundry toolbox.",
       "families": [
         {
           "id": "local-tools",
@@ -111,15 +111,7 @@ window.HA_TREE = {
           "variants": [
             "byo-resp-langgraph-toolbox-user-identity"
           ]
-        }
-      ]
-    },
-    {
-      "id": "knowledge",
-      "title": "Knowledge, RAG & Memory",
-      "tagline": "grounding · search · memory",
-      "description": "Ground answers in your data: file-based skills, Azure AI Search RAG, semantic memory, and Foundry IQ agentic retrieval.",
-      "families": [
+        },
         {
           "id": "skills",
           "title": "Skills",
@@ -135,7 +127,15 @@ window.HA_TREE = {
           "variants": [
             "af-resp-foundry-skills"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id": "knowledge",
+      "title": "Knowledge, RAG & Memory",
+      "tagline": "grounding · search · memory",
+      "description": "Ground answers in your data: Azure AI Search RAG, semantic memory, and Foundry IQ agentic retrieval.",
+      "families": [
         {
           "id": "rag",
           "title": "Azure AI Search RAG",
