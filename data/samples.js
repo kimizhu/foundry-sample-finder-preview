@@ -36,16 +36,113 @@ window.HA_SAMPLES = {
       "activity": "Activity protocol — Microsoft Teams / M365 channel"
     },
     "categories": {
-      "foundations": "Foundations (chat & multi-turn)",
-      "tools": "Tools & Extensions",
+      "basics": "Just the basics",
+      "tools": "Tools, MCP & Skills",
       "knowledge": "Knowledge, RAG & Memory",
       "files": "Files & Documents",
+      "human-async": "Human-in-the-Loop, Async & Events",
       "orchestration": "Multi-Agent & Orchestration",
-      "human-async": "Human-in-the-Loop & Async",
-      "production": "Production & Governance",
-      "channels": "Channels & Interfaces",
-      "adapters": "Framework Adapters (BYO)"
-    }
+      "browser": "Browser & Computer Use",
+      "adapters": "Other SDKs & Adapters",
+      "observability": "Observability & Tracing",
+      "governance": "Security, Governance & Ops",
+      "optimization": "Agent Optimization",
+      "teams": "Teams / M365 Channel",
+      "voice": "Voice & Realtime"
+    },
+    "categoryList": [
+      {
+        "id": "basics",
+        "title": "Just the basics",
+        "blurb": "Start here — a minimal chat agent",
+        "curated": true,
+        "count": 6
+      },
+      {
+        "id": "tools",
+        "title": "Tools, MCP & Skills",
+        "blurb": "local tools · MCP · toolbox",
+        "curated": true,
+        "count": 11
+      },
+      {
+        "id": "knowledge",
+        "title": "Knowledge, RAG & Memory",
+        "blurb": "grounding · search · memory",
+        "curated": true,
+        "count": 3
+      },
+      {
+        "id": "files",
+        "title": "Files & Documents",
+        "blurb": "uploads · code interpreter",
+        "curated": true,
+        "count": 2
+      },
+      {
+        "id": "human-async",
+        "title": "Human-in-the-Loop, Async & Events",
+        "blurb": "approvals · background · events",
+        "curated": true,
+        "count": 7
+      },
+      {
+        "id": "orchestration",
+        "title": "Multi-Agent & Orchestration",
+        "blurb": "workflows · A2A delegation",
+        "curated": true,
+        "count": 5
+      },
+      {
+        "id": "browser",
+        "title": "Browser & Computer Use",
+        "blurb": "Playwright · scraping",
+        "curated": false,
+        "count": 2
+      },
+      {
+        "id": "adapters",
+        "title": "Other SDKs & Adapters",
+        "blurb": "bring another SDK to Foundry",
+        "curated": false,
+        "count": 6
+      },
+      {
+        "id": "observability",
+        "title": "Observability & Tracing",
+        "blurb": "tracing · metrics · App Insights",
+        "curated": false,
+        "count": 2
+      },
+      {
+        "id": "governance",
+        "title": "Security, Governance & Ops",
+        "blurb": "identity · guardrails · secrets",
+        "curated": false,
+        "count": 4
+      },
+      {
+        "id": "optimization",
+        "title": "Agent Optimization",
+        "blurb": "auto-tune instructions (preview)",
+        "curated": false,
+        "count": 3
+      },
+      {
+        "id": "teams",
+        "title": "Teams / M365 Channel",
+        "blurb": "ship to Microsoft Teams",
+        "curated": false,
+        "count": 1
+      },
+      {
+        "id": "voice",
+        "title": "Voice & Realtime",
+        "blurb": "voice-live · WebRTC · duplex",
+        "curated": false,
+        "count": 10
+      }
+    ]
   },
   "samples": [
     {
@@ -54,7 +151,7 @@ window.HA_SAMPLES = {
       "framework": "agent-framework",
       "sdk": "agent-framework",
       "protocol": "responses",
-      "category": "foundations",
+      "category": "basics",
       "level": "beginner",
       "kind": "agent",
       "tags": [
@@ -159,7 +256,7 @@ window.HA_SAMPLES = {
       "framework": "agent-framework",
       "sdk": "agent-framework",
       "protocol": "responses",
-      "category": "knowledge",
+      "category": "tools",
       "level": "intermediate",
       "kind": "agent",
       "tags": [
@@ -177,7 +274,7 @@ window.HA_SAMPLES = {
       "framework": "agent-framework",
       "sdk": "agent-framework",
       "protocol": "activity",
-      "category": "channels",
+      "category": "teams",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -197,7 +294,7 @@ window.HA_SAMPLES = {
       "framework": "agent-framework",
       "sdk": "agent-framework",
       "protocol": "responses",
-      "category": "production",
+      "category": "observability",
       "level": "intermediate",
       "kind": "agent",
       "tags": [
@@ -235,7 +332,7 @@ window.HA_SAMPLES = {
       "framework": "agent-framework",
       "sdk": "agent-framework",
       "protocol": "responses",
-      "category": "production",
+      "category": "governance",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -273,7 +370,7 @@ window.HA_SAMPLES = {
       "framework": "agent-framework",
       "sdk": "agent-framework",
       "protocol": "responses",
-      "category": "knowledge",
+      "category": "tools",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -309,7 +406,7 @@ window.HA_SAMPLES = {
       "framework": "agent-framework",
       "sdk": "agent-framework",
       "protocol": "responses",
-      "category": "channels",
+      "category": "browser",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -328,7 +425,7 @@ window.HA_SAMPLES = {
       "framework": "agent-framework",
       "sdk": "agent-framework",
       "protocol": "responses",
-      "category": "production",
+      "category": "optimization",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -347,7 +444,7 @@ window.HA_SAMPLES = {
       "framework": "agent-framework",
       "sdk": "agent-framework",
       "protocol": "responses",
-      "category": "production",
+      "category": "governance",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -386,7 +483,7 @@ window.HA_SAMPLES = {
       "framework": "agent-framework",
       "sdk": "agent-framework",
       "protocol": "invocations",
-      "category": "foundations",
+      "category": "basics",
       "level": "intermediate",
       "kind": "agent",
       "tags": [
@@ -423,7 +520,7 @@ window.HA_SAMPLES = {
       "framework": "langgraph",
       "sdk": "langgraph",
       "protocol": "responses",
-      "category": "foundations",
+      "category": "basics",
       "level": "beginner",
       "kind": "agent",
       "tags": [
@@ -534,7 +631,7 @@ window.HA_SAMPLES = {
       "framework": "langgraph",
       "sdk": "langgraph",
       "protocol": "responses",
-      "category": "production",
+      "category": "observability",
       "level": "intermediate",
       "kind": "agent",
       "tags": [
@@ -553,7 +650,7 @@ window.HA_SAMPLES = {
       "framework": "langgraph",
       "sdk": "langgraph",
       "protocol": "invocations",
-      "category": "foundations",
+      "category": "basics",
       "level": "intermediate",
       "kind": "agent",
       "tags": [
@@ -590,7 +687,7 @@ window.HA_SAMPLES = {
       "framework": "bring-your-own",
       "sdk": "native",
       "protocol": "responses",
-      "category": "foundations",
+      "category": "basics",
       "level": "beginner",
       "kind": "agent",
       "tags": [
@@ -696,7 +793,7 @@ window.HA_SAMPLES = {
       "framework": "bring-your-own",
       "sdk": "native",
       "protocol": "responses",
-      "category": "production",
+      "category": "governance",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -714,7 +811,7 @@ window.HA_SAMPLES = {
       "framework": "bring-your-own",
       "sdk": "native",
       "protocol": "responses",
-      "category": "channels",
+      "category": "browser",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -786,7 +883,7 @@ window.HA_SAMPLES = {
       "framework": "bring-your-own",
       "sdk": "native",
       "protocol": "responses",
-      "category": "production",
+      "category": "optimization",
       "level": "intermediate",
       "kind": "agent",
       "tags": [
@@ -804,7 +901,7 @@ window.HA_SAMPLES = {
       "framework": "bring-your-own",
       "sdk": "native",
       "protocol": "responses",
-      "category": "production",
+      "category": "optimization",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -823,7 +920,7 @@ window.HA_SAMPLES = {
       "framework": "bring-your-own",
       "sdk": "native",
       "protocol": "invocations",
-      "category": "foundations",
+      "category": "basics",
       "level": "beginner",
       "kind": "agent",
       "tags": [
@@ -893,7 +990,7 @@ window.HA_SAMPLES = {
       "framework": "bring-your-own",
       "sdk": "native",
       "protocol": "invocations",
-      "category": "channels",
+      "category": "adapters",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -911,7 +1008,7 @@ window.HA_SAMPLES = {
       "framework": "bring-your-own",
       "sdk": "native",
       "protocol": "invocations",
-      "category": "channels",
+      "category": "adapters",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -947,7 +1044,7 @@ window.HA_SAMPLES = {
       "framework": "bring-your-own",
       "sdk": "native",
       "protocol": "invocations",
-      "category": "channels",
+      "category": "human-async",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -984,7 +1081,7 @@ window.HA_SAMPLES = {
       "framework": "bring-your-own",
       "sdk": "native",
       "protocol": "invocations",
-      "category": "production",
+      "category": "governance",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -1002,7 +1099,7 @@ window.HA_SAMPLES = {
       "title": "Voice Live Hello World (WebSocket)",
       "framework": "bring-your-own",
       "protocol": "invocations_ws",
-      "category": "channels",
+      "category": "voice",
       "level": "intermediate",
       "kind": "agent",
       "tags": [
@@ -1020,7 +1117,7 @@ window.HA_SAMPLES = {
       "title": "Pipecat over WebSocket",
       "framework": "bring-your-own",
       "protocol": "invocations_ws",
-      "category": "channels",
+      "category": "voice",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -1038,7 +1135,7 @@ window.HA_SAMPLES = {
       "title": "Pipecat with WebRTC",
       "framework": "bring-your-own",
       "protocol": "invocations_ws",
-      "category": "channels",
+      "category": "voice",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -1056,7 +1153,7 @@ window.HA_SAMPLES = {
       "title": "LiveKit Voice Agent",
       "framework": "bring-your-own",
       "protocol": "invocations_ws",
-      "category": "channels",
+      "category": "voice",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -1073,7 +1170,7 @@ window.HA_SAMPLES = {
       "title": "Duplex Live (Foreground + Background)",
       "framework": "bring-your-own",
       "protocol": "invocations_ws",
-      "category": "channels",
+      "category": "voice",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -1091,7 +1188,7 @@ window.HA_SAMPLES = {
       "title": "Voice Live: Foreground + Background (Responses)",
       "framework": "bring-your-own",
       "protocol": "responses",
-      "category": "channels",
+      "category": "voice",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -1108,7 +1205,7 @@ window.HA_SAMPLES = {
       "title": "Voice Live: LangGraph Handoff (Responses)",
       "framework": "bring-your-own",
       "protocol": "responses",
-      "category": "channels",
+      "category": "voice",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -1126,7 +1223,7 @@ window.HA_SAMPLES = {
       "title": "Voice Live: Hello World (Invocations)",
       "framework": "bring-your-own",
       "protocol": "invocations",
-      "category": "channels",
+      "category": "voice",
       "level": "intermediate",
       "kind": "agent",
       "tags": [
@@ -1143,7 +1240,7 @@ window.HA_SAMPLES = {
       "title": "Voice Live: Hotel Booking (Invocations)",
       "framework": "bring-your-own",
       "protocol": "invocations",
-      "category": "channels",
+      "category": "voice",
       "level": "advanced",
       "kind": "agent",
       "tags": [
@@ -1160,7 +1257,7 @@ window.HA_SAMPLES = {
       "title": "Voice Live Client (shared)",
       "framework": "bring-your-own",
       "protocol": "responses",
-      "category": "channels",
+      "category": "voice",
       "level": "intermediate",
       "kind": "client",
       "tags": [

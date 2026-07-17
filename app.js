@@ -1203,29 +1203,232 @@ async function runSmartFor(ss, query, rerender, framework) {
   rerender();
 }
 
-/* ---------- tabs ---------- */
-const VIEWS = ["compose", "guided", "guide", "browse"];
-function setView(view) {
-  state.view = view;
-  document.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", String(t.dataset.view === view)));
-  VIEWS.forEach((v) => {
-    const sec = document.getElementById("view-" + v);
-    if (sec) sec.hidden = v !== view;
-  });
-  if (view === "browse") renderBrowse();
-  else if (view === "compose") renderCompose();
-  else if (view === "guided") renderGuided();
-  else if (view === "guide") renderGuide();
-}
-
-function wireTabs() {
-  document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => setView(t.dataset.view)));
-}
-
 /* ---------- footer ---------- */
 function setupFooter() {
   document.getElementById("sourceRepo").textContent = state.meta.source;
   document.getElementById("rootLink").href = state.meta.repoBaseUrl;
+}
+
+/* ================================================================
+ * Landing — one blended page that merges the three ways of finding
+ * a sample: keyword filter, scenario categories (progressive
+ * disclosure), and agent-backed smart search. No tabs.
+ * ================================================================ */
+const home = { q: "", mode: "grid", cat: null, showAll: false };
+const smart = { open: false, status: "idle", q0: "", data: null, error: "" };
+
+function categoryList() {
+  return (state.meta && state.meta.categoryList) || [];
+}
+function categoryLabel(id) {
+  return (state.meta.categories && state.meta.categories[id]) || id;
+}
+function samplesInCat(id) {
+  return state.samples.filter((s) => s.category === id);
+}
+
+/* ---- category grid (curated 6 + show all/less) ---- */
+function categoryCard(c) {
+  return el("button", { class: "cat-card", type: "button", onclick: () => openCategory(c.id) }, [
+    el("h3", { class: "cat-card-title", text: c.title }),
+    c.blurb ? el("p", { class: "cat-card-blurb", text: c.blurb }) : null,
+    el("span", { class: "cat-card-count", text: countLabel(c.count != null ? c.count : samplesInCat(c.id).length) }),
+  ]);
+}
+
+function renderCategoryGrid(host) {
+  const cats = categoryList();
+  const shown = home.showAll ? cats : cats.filter((c) => c.curated);
+  host.appendChild(el("div", { class: "cat-grid" }, shown.map(categoryCard)));
+  if (cats.some((c) => !c.curated)) {
+    host.appendChild(el("div", { class: "cat-toggle-row" }, [
+      el("button", {
+        class: "cat-toggle", type: "button",
+        text: home.showAll ? "Show less" : "Show all",
+        onclick: () => { home.showAll = !home.showAll; renderHomeMain(); },
+      }),
+    ]));
+  }
+}
+
+/* ---- category drill-in ---- */
+function openCategory(id) {
+  home.mode = "category"; home.cat = id; setHash("cat/" + id);
+  renderHomeMain();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function backToGrid() {
+  home.mode = "grid"; home.cat = null; setHash("");
+  renderHomeMain();
+}
+
+function renderCategoryView(host) {
+  const c = categoryList().find((x) => x.id === home.cat);
+  const samples = samplesInCat(home.cat);
+  host.appendChild(el("div", { class: "home-crumb" }, [
+    el("button", { class: "crumb-back", type: "button", text: "← All categories", onclick: backToGrid }),
+  ]));
+  host.appendChild(el("div", { class: "home-section-head" }, [
+    el("h2", { class: "home-section-title", text: c ? c.title : home.cat }),
+    el("span", { class: "home-section-count", text: countLabel(samples.length) }),
+    c && c.blurb ? el("p", { class: "home-section-blurb", text: c.blurb }) : null,
+  ]));
+  const grid = el("div", { class: "card-grid" });
+  samples.forEach((s) => grid.appendChild(sampleCard(s)));
+  host.appendChild(grid);
+}
+
+/* ---- keyword search (offline, across all samples) ---- */
+function keywordResults(q) {
+  const t = (q || "").trim().toLowerCase();
+  if (!t) return [];
+  return state.samples.filter((s) => {
+    const hay = [s.title, s.description, s.path, (s.tags || []).join(" "), categoryLabel(s.category)].join(" ").toLowerCase();
+    return hay.includes(t);
+  });
+}
+
+function renderSearchView(host) {
+  const res = keywordResults(home.q);
+  host.appendChild(el("div", { class: "home-section-head" }, [
+    el("h2", { class: "home-section-title", text: `Results for “${home.q.trim()}”` }),
+    el("span", { class: "home-section-count", text: countLabel(res.length) }),
+  ]));
+  if (!res.length) {
+    host.appendChild(el("div", { class: "home-empty" }, [
+      el("p", { text: "No samples match those keywords." }),
+      el("button", { class: "home-smart-btn inline", type: "button", text: "✨ Try Smart search", onclick: () => runSmart(home.q) }),
+    ]));
+    return;
+  }
+  const grid = el("div", { class: "card-grid" });
+  res.forEach((s) => grid.appendChild(sampleCard(s)));
+  host.appendChild(grid);
+}
+
+function renderHomeMain() {
+  const host = document.getElementById("homeMain");
+  if (!host) return;
+  host.innerHTML = "";
+  if (home.mode === "search") renderSearchView(host);
+  else if (home.mode === "category") renderCategoryView(host);
+  else renderCategoryGrid(host);
+}
+
+/* ---- smart search (right slide-in panel, agent-backed) ---- */
+function closeSmart() { smart.open = false; renderSmartPanel(); }
+
+async function runSmart(q) {
+  const query = (q || "").trim();
+  if (query.length < 2) { const i = document.getElementById("search"); if (i) i.focus(); return; }
+  smart.open = true; smart.status = "loading"; smart.q0 = query; smart.error = ""; smart.data = null;
+  renderSmartPanel();
+  try {
+    smart.data = await askAgentRaw(query, null);
+    smart.status = "ok";
+  } catch (e) {
+    smart.status = "error";
+    smart.error = String((e && e.message) || e);
+  }
+  renderSmartPanel();
+}
+
+function renderSmartPanel() {
+  const panel = document.getElementById("smartPanel");
+  const scrim = document.getElementById("smartScrim");
+  if (!panel) return;
+  panel.hidden = !smart.open;
+  if (scrim) scrim.hidden = !smart.open;
+  panel.classList.toggle("open", smart.open);
+  if (!smart.open) { panel.innerHTML = ""; return; }
+
+  const nMatches = smart.status === "ok" && smart.data ? smart.data.matches.length : null;
+  panel.innerHTML = "";
+  panel.appendChild(el("div", { class: "smart-panel-head" }, [
+    el("div", {}, [
+      el("h2", { class: "smart-panel-title", text: "Best-fit samples" }),
+      el("p", { class: "smart-panel-sub", text: nMatches != null ? `${nMatches} ${nMatches === 1 ? "match" : "matches"}` : "" }),
+    ]),
+    el("button", { class: "smart-panel-close", type: "button", "aria-label": "Close", text: "✕", onclick: closeSmart }),
+  ]));
+  const body = el("div", { class: "smart-panel-body" });
+  panel.appendChild(body);
+
+  if (smart.status === "loading") {
+    body.appendChild(el("div", { class: "smart-loading" }, [
+      el("div", { class: "smart-spinner", "aria-hidden": "true" }),
+      el("p", { text: `Asking the Foundry agent about “${smart.q0}”…` }),
+    ]));
+    return;
+  }
+  if (smart.status === "error") {
+    body.appendChild(el("div", { class: "smart-err" }, [
+      el("p", { html: `⚠️ Couldn’t reach the Foundry agent (<code>${smart.error}</code>).` }),
+      el("p", { class: "muted", text: "Showing keyword matches instead:" }),
+    ]));
+    keywordResults(smart.q0).slice(0, 6).forEach((s) => body.appendChild(sampleCard(s)));
+    return;
+  }
+  if (smart.status === "ok" && smart.data) {
+    const { matches, understood } = smart.data;
+    const entries = matches.map((m) => { const s = sampleById(m.id); return s ? { sample: s, note: m.why } : null; }).filter(Boolean);
+    body.appendChild(el("div", { class: "smart-pick", text: "✨ Picked by your Foundry hosted agent" }));
+    if (understood && understood.length) {
+      body.appendChild(el("div", { class: "understood" }, [
+        el("span", { class: "understood-label", text: "Understood as:" }),
+        ...understood.map((l) => el("span", { class: "understood-chip", text: l })),
+      ]));
+    }
+    if (!entries.length) {
+      body.appendChild(el("p", { class: "muted", text: "The agent didn’t find a matching sample. Try describing the capability differently." }));
+      return;
+    }
+    entries.forEach((entry, i) => body.appendChild(kitSampleCard(entry, {
+      recommended: i === 0,
+      blockLabel: categoryLabel(entry.sample.category),
+      showFw: true,
+    })));
+    return;
+  }
+}
+
+/* ---- hash routing ---- */
+function setHash(h) {
+  const target = h ? "#" + h : location.pathname + location.search;
+  if ((location.hash.replace(/^#/, "")) !== h) history.replaceState(null, "", target);
+}
+function applyHash() {
+  const h = location.hash.replace(/^#/, "");
+  if (h.indexOf("cat/") === 0) {
+    const id = h.slice(4);
+    if (categoryList().some((c) => c.id === id)) { home.mode = "category"; home.cat = id; renderHomeMain(); return; }
+  }
+  home.mode = "grid"; home.cat = null; renderHomeMain();
+}
+
+/* ---- wiring ---- */
+function wireHome() {
+  const input = document.getElementById("search");
+  const clear = document.getElementById("btnClear");
+  const syncClear = () => { if (clear) clear.hidden = !input.value; };
+  input.addEventListener("input", (e) => {
+    home.q = e.target.value;
+    syncClear();
+    if (home.q.trim() === "") applyHash();
+    else { home.mode = "search"; renderHomeMain(); }
+  });
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); runSmart(home.q); }
+  });
+  if (clear) clear.addEventListener("click", () => {
+    input.value = ""; home.q = ""; syncClear();
+    home.showAll = false; setHash(""); applyHash(); input.focus();
+  });
+  document.getElementById("btnSmart").addEventListener("click", () => runSmart(home.q));
+  const scrim = document.getElementById("smartScrim");
+  if (scrim) scrim.addEventListener("click", closeSmart);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && smart.open) closeSmart(); });
+  window.addEventListener("hashchange", () => { if (home.mode !== "search") applyHash(); });
 }
 
 /* ---------- boot ---------- */
@@ -1233,16 +1436,15 @@ async function main() {
   try {
     await loadData();
   } catch (err) {
-    document.getElementById("guideTree").appendChild(
+    const host = document.getElementById("homeMain");
+    if (host) host.appendChild(
       el("div", { class: "empty", html: `Could not load data. If you opened this file directly and see this, run <code>python -m http.server</code> in this folder and reload.<br><br>${String(err)}` })
     );
     return;
   }
   setupFooter();
-  populateFilters();
-  wireBrowse();
-  wireTabs();
-  setView("compose");
+  wireHome();
+  applyHash();
 }
 
 document.addEventListener("DOMContentLoaded", main);
