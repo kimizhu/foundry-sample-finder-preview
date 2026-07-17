@@ -20,13 +20,25 @@
   </header>
 
   <nav class="tabs wrap" role="tablist" aria-label="Views">
-    <button class="tab" id="tab-guide" role="tab" aria-selected="true" data-view="guide">Guide me</button>
+    <button class="tab" id="tab-compose" role="tab" aria-selected="true" data-view="compose">🧩 Compose a kit</button>
+    <button class="tab" id="tab-guided" role="tab" aria-selected="false" data-view="guided">🧭 Guide me to one</button>
+    <button class="tab" id="tab-guide" role="tab" aria-selected="false" data-view="guide">Building blocks</button>
     <button class="tab" id="tab-browse" role="tab" aria-selected="false" data-view="browse">Browse all samples</button>
   </nav>
 
   <main class="wrap">
+    <!-- Prototype A: Compose a starter kit (compositional) -->
+    <section id="view-compose" class="view" aria-labelledby="tab-compose">
+      <div id="composeApp" class="compose-app"></div>
+    </section>
+
+    <!-- Prototype B: Guided path to one sample -->
+    <section id="view-guided" class="view" hidden aria-labelledby="tab-guided">
+      <div id="guidedApp" class="guided-app"></div>
+    </section>
+
     <!-- Guide (building-blocks) view -->
-    <section id="view-guide" class="view" aria-labelledby="tab-guide">
+    <section id="view-guide" class="view" hidden aria-labelledby="tab-guide">
       <div id="guideTree" class="guide-tree"></div>
     </section>
 
