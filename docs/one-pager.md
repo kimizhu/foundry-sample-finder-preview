@@ -144,4 +144,4 @@ Faster time-to-first-sample and higher sample-gallery adoption. A newcomer goes 
 
 **Optional notes for reviewers**
 
-The app is fully static and forkable — no install required to try it live. Smart search calls a deployed Foundry hosted agent; if it's unreachable during review, the experience gracefully falls back to keyword matches, and keyword/scenario browsing work entirely offline.
+This site is a **demo/prototype** meant to illustrate the experience — not a production surface. To make it real, the finder would need to be **merged into Foundry's existing entry points** (e.g. the VS Code extension's sample gallery and the Foundry portal's create flow) rather than living as a standalone site.
